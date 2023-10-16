@@ -42,8 +42,9 @@ def get_user():
 
     return jsonify(list(map(lambda user : user.serialize(), all_users))), 200
 
-@app.route('/<int:user>/favorites', methods=['GET'])
-def get_favorites(user):
+@app.route('/user/favorites', methods=['GET'])
+def get_favorites():
+    user = 1
     all_favorites = Favorite.query.filter_by(user_id = user)
 
     return jsonify(list(map(lambda favorite : favorite.serialize(), all_favorites))), 200
@@ -76,7 +77,7 @@ def get_people():
 def get_people_id (people_id):
     all_people = People.query.filter_by(id = people_id).first()
     
-    return jsonify(all_people.serialize())
+    return jsonify(all_people.serialize()) , 200
 
 @app.route('/planet', methods=['GET'])
 def get_planet():
@@ -88,7 +89,7 @@ def get_planet():
 def get_planet_id (planet_id):
     all_planet = Planet.query.filter_by(id = planet_id).first()
     
-    return jsonify(all_planet.serialize())
+    return jsonify(all_planet.serialize()) , 200
 
 @app.route('/favorite/planet/<int:id>', methods=['DELETE'])
 def delete_planet_id (id):
@@ -97,7 +98,7 @@ def delete_planet_id (id):
     db.session.delete(all_planet)
     db.session.commit()
     
-    return 'deleted favorite'
+    return 'deleted favorite' , 200
 
 @app.route('/favorite/people/<int:id>', methods=['DELETE'])
 def delete_people_id (id):
@@ -106,7 +107,7 @@ def delete_people_id (id):
     db.session.delete(all_people)
     db.session.commit()
     
-    return 'deleted favorite'
+    return 'deleted favorite' , 200
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
